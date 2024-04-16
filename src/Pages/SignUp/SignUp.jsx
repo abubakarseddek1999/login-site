@@ -1,147 +1,141 @@
-import { useForm } from "react-hook-form"
-import { Helmet } from "react-helmet";
-import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../../provider/AuthProvider";
-import Swal from "sweetalert2";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import SocialLogin from "../../components/socialLogin/SocialLogin";
+
+import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../Provider/AuthProvider';
+
+
 
 const SignUp = () => {
-    const axiosPublic = useAxiosPublic();
+    const { createUser } = useContext(AuthContext);
+    const [selectedOption, setSelectedOption] = useState('yes');
 
-    const { createUser, updateUserProfile } = useContext(AuthContext);
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm()
-    const navigate =useNavigate();
-    const onSubmit = (data) => {
-        // console.log(data)
-        createUser(data.email, data.password, data.photo)
+    const handleChange = (e) => {
+        setSelectedOption(e.target.value);
+    };
+    
+    
+    const handleSignUp = e => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const name = form.name.value;
+        const password = form.password.value;
+        const company = form.company.value;
+        console.log(name, email, password, company);
+
+        createUser(email, password)
             .then(result => {
-                const loggedUser = result.user;
-                console.log(loggedUser);
-                updateUserProfile(data.name, data.photo)
-                    .then(() => {
-                        // console.log("user profile info update");
-                        const userInfo = {
-                            name: data.name,
-                            email: data.email,
-                            photo: data.photo
-
-                        }
-                        axiosPublic.post('/users', userInfo)
-                            .then(res => {
-                                if (res.data.insertedId) {
-                                    console.log("user added database");
-                                    reset();
-                                    Swal.fire({
-                                        title: "user created successfully",
-                                        text: "Congratulation",
-                                        icon: "success"
-                                    });
-                                    navigate('/');
-
-                                }
-                            })
-
-                    })
-                    .catch((error) => console.log(error))
+                const user = result.user;
+                console.log(user);
 
             })
+            .catch(error => console.log(error.massage))
+
     }
 
     return (
-        <>
-            <Helmet>
-                <title> Bistro Boss || Sign Up</title>
-            </Helmet>
-            <div className="hero min-h-screen bg-base-200">
-                <div className="hero-content flex-col lg:flex-row">
-                    <div className="text-center w-1/2 mr-14 lg:text-left">
-                        {/* <img src={img} alt="" /> */}
-                        <img src="https://i.postimg.cc/fW0WLNn4/Mobile-login-pana-1.png" alt="" />
-                    </div>
-                    <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                        <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-                            <h2 className='text-2xl font-bold text-center'> Sign Up</h2>
-                            {/* name field */}
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Name</span>
+        <div className="">
+            <div className="flex justify-center items-center">
+
+
+                <div className="bg-[#F7F8F9] md:min-w-[576px] min-h-screen p-2 ">
+
+                    <form onSubmit={handleSignUp} className="">
+                        <div className=" flex justify-center items-center">
+                            <img className='w-[500px] h-[400px]' src="https://i.postimg.cc/fW0WLNn4/Mobile-login-pana-1.png" alt="" />
+                        </div>
+
+                        <h2 className='text-2xl font-bold text-center'> Create your <br /> PopX account</h2>
+
+                        {/* name */}
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold">Name</span>
+                            </label>
+                            <input type="name" placeholder="Your name" name='name' className="input input-bordered" required />
+                        </div>
+
+                        {/* Phone number */}
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold">Phone number</span>
+                            </label>
+                            <input type="phone" placeholder="Your phone number" name='email' className="input input-bordered" required />
+                        </div>
+
+                        {/* email */}
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold">Email</span>
+                            </label>
+                            <input type="email" placeholder="Your email" name='email' className="input input-bordered" required />
+                        </div>
+
+                        {/* password */}
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold">Confirm Password</span>
+                            </label>
+                            <input type="password" name='password' placeholder="Your password" className="input input-bordered" required />
+                           
+                        </div>
+
+                        {/* company name */}
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold">Email</span>
+                            </label>
+                            <input type="text" placeholder="company name " name='company' className="input input-bordered" required />
+                        </div>
+
+                        {/* Agency surety */}
+                        <div>
+                            <p className='font-bold mt-2'>Are you an agency?</p>
+                            <div className="p-2 flex items-center space-x-4">
+                                <label className="inline-flex items-center">
+                                    <input
+                                        type="radio"
+                                        value="yes"
+                                        checked={selectedOption === 'yes'}
+                                        onChange={handleChange}
+                                        className="form-radio text-indigo-600" required
+                                    />
+                                    <span className="ml-2">Yes</span>
                                 </label>
-                                <input {...register("name", { required: true })} type="name" placeholder="name" className="input input-bordered" />
-                                {/* errors will return when field validation fails  */}
-                                {errors.name && <span className="text-red-600 font-bold">This field is required</span>}
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Photo URL</span>
+                                <label className="inline-flex items-center">
+                                    <input
+                                        type="radio"
+                                        value="no"
+                                        checked={selectedOption === 'no'}
+                                        onChange={handleChange}
+                                        className="form-radio text-indigo-600" required
+                                    />
+                                    <span className="ml-2">No</span>
                                 </label>
-                                <input {...register("photo", { required: true })} type="photo" placeholder="name" className="input input-bordered" />
-                                {/* errors will return when field validation fails  */}
-                                {errors.photo && <span className="text-red-600 font-bold">Photo URL is required</span>}
                             </div>
-
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Email</span>
-                                </label>
-                                <input {...register("email", { required: true })} type="email" placeholder="email" className="input input-bordered" />
-                                {/* errors will return when field validation fails  */}
-                                {errors.email && <span className="text-red-600 font-bold">email field is required</span>}
-                            </div>
-                            <div className="form-control">
-
-                                <label className="label">
-                                    <span className="label-text">Password</span>
-                                </label>
-                                <input {...register("password", {
-                                    required: true,
-                                    minLength: 6,
-                                    maxLength: 20,
-                                    pattern: /(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])./
-                                })} type="password" placeholder="password" className="input input-bordered" />
-
-                                {/* errors will return when field validation fails  */}
-
-                                {errors.password?.type === "required" && (
-                                    <p role="alert" className="text-red-600 font-bold">password is required</p>
-                                )}
-                                {errors.password?.type === "minLength" && (
-                                    <p role="alert" className="text-red-600 font-bold">password must be 6 character</p>
-                                )}
-                                {errors.password?.type === "maxLength" && (
-                                    <p role="alert" className="text-red-600 font-bold">password must be less than 20 character</p>
-                                )}
-
-                                {errors.password?.type === "pattern" && (
-                                    <p role="alert" className="text-red-600 font-bold">password must have one uppercase ,one lowercase, one number, one special character</p>
-                                )}
+                        </div>
 
 
-                                <label className="label">
-                                    <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                                </label>
+                        <div className="form-control mt-6">
+                            <input className="btn bg-[#6C25FF] text-white" type="submit" value="Create Account" />
+                        </div>
+
+                        <div className='text-center'>
+                            <p>Or Sign up with</p>
+                            <div className='flex justify-center gap-4 mt-2'>
+                                <Link>facebook </Link>
+                                <Link>google</Link>
 
                             </div>
-
-                            <div className="form-control ">
-                                <input className="btn btn-primary" type="submit" value="Sign up" />
-
+                            <div className='mt-3'>
+                                <p >Already have an Account? <Link to="/login" className='text-orange-500 font-bold '>Sign in</Link></p>
                             </div>
-                            <p className="text-center">already Sign up? <span className="text-lime-600 font-bold"><Link to='/login'>Sign In</Link></span></p>
-                            <div className="divider"></div>
-                            <SocialLogin></SocialLogin>
-                            
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

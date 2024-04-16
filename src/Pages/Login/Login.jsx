@@ -54,55 +54,62 @@ const Login = () => {
         <>
 
             <div className="flex justify-center items-center">
-                <div className="min-h-screen bg-base-200">
+                <div className="bg-[#F7F8F9] md:min-w-[576px] min-h-screen p-2 ">
 
+                    <form onSubmit={handleLogin} >
+                        <div className="flex justify-center items-center">
+                            {/* image of login page */}
+                            <img className="w-[570px]" src="https://i.postimg.cc/fW0WLNn4/Mobile-login-pana-1.png" alt="" />
+                        </div>
+                        <p className='text-2xl font-bold text-center'> Signin to your PopX account</p>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold">Email</span>
+                            </label>
+                            <input type="email" placeholder=" email Address" name='email' className="input input-bordered" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold"> Password</span>
+                            </label>
+                            <input type="password" name='password' placeholder="Enter password" className="input input-bordered" required />
+                            <label className="label">
+                                <a href="#" className="label-text-alt link link-hover font-bold">Forgot password?</a>
+                            </label>
+                        </div>
 
-                    <div className=" max-w-xl bg-[#F7F8F9] rounded-xl">
+                        {/* sign in button */}
+                        <div className="form-control mt-2">
+                            {/* TODO: apply disable for re captcha*/}
+                            <input disabled={false} className="btn bg-[#6C25FF] text-white" type="submit" value="Login" />
+                        </div>
 
-                        <form onSubmit={handleLogin} >
-                            <div className="flex justify-center items-center">
-                                {/* image of login page */}
-                                <img className="h-[250px] " src="https://i.postimg.cc/fW0WLNn4/Mobile-login-pana-1.png" alt="" />
-                            </div>
-                            <h2 className='text-2xl font-bold text-center'> Signin to your PopX account</h2>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text font-bold">Email</span>
-                                </label>
-                                <input type="email" placeholder=" email Address" name='email' className="input input-bordered" required />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text font-bold"> Password</span>
-                                </label>
-                                <input type="password" name='password' placeholder="Enter password" className="input input-bordered" required />
-                                <label className="label">
-                                    <a href="#" className="label-text-alt link link-hover font-bold">Forgot password?</a>
-                                </label>
-                            </div>
+                        <div className='text-center'>
+                            <div className='mt-3'>
+                                <p >New here? <br /> <Link to="/signup" className='text-lime-600 font-bold '>Create a New Account</Link></p>
+                                <p>Or Sign In with</p>
+                                <div className='flex justify-center gap-4 mt-2'>
+                                    <Link>facebook </Link>
+                                    <Link onClick={handleGoogleSignIn}>google</Link>
 
-                            {/* sign in button */}
-                            <div className="form-control mt-2">
-                                {/* TODO: apply disable for re captcha*/}
-                                <input disabled={false} className="btn bg-[#4bcc92] text-white" type="submit" value="Log in" />
-                            </div>
-
-                            <div className='text-center'>
-                                <div className='mt-3'>
-                                    <p >New here? <br /> <Link to="/signup" className='text-lime-600 font-bold '>Create a New Account</Link></p>
-                                    <p>Or Sign In with</p>
-                                    <div className='flex justify-center gap-4 mt-2'>
-                                        <Link>facebook </Link>
-                                        <Link onClick={handleGoogleSignIn}>google</Link>
-
-                                    </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
 
-                    </div>
+                    </form>
+
+
+
+
+
+
+
+
+
+
                 </div>
             </div>
+
         </>
     );
 };
