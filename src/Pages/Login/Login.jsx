@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 const Login = () => {
     // const [disabled, setDisabled] = useState(true);
     const { signInUser, signInWithGoogle } = useContext(AuthContext);
@@ -12,28 +13,37 @@ const Login = () => {
     const handleLogin = e => {
         e.preventDefault();
         const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
+        const email = form.email?.value;
+        const password = form.password?.value;
         console.log(email, password);
 
-        signInUser(email, password)
-            .then(result => {
-                const loggedInUser = result.user;
-                console.log(loggedInUser);
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your login success",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        navigate("/profile")
 
-                alert.fire({
-                    title: 'User Login Successful.',
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown'
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp'
-                    }
-                });
-                navigate(from, { replace: true });
+        // signInUser(email, password)
+        //     .then(result => {
+        //         const loggedInUser = result.user;
+        //         console.log(loggedInUser);
 
-            })
-            .catch(error => console.log(error))
+        //         alert.fire({
+        //             title: 'User Login Successful.',
+        //             showClass: {
+        //                 popup: 'animate__animated animate__fadeInDown'
+        //             },
+        //             hideClass: {
+        //                 popup: 'animate__animated animate__fadeOutUp'
+        //             }
+        //         });
+        //         navigate(from, { replace: true });
+
+        //     })
+        //     .catch(error => console.log(error))
 
 
 
@@ -80,8 +90,8 @@ const Login = () => {
 
                         {/* sign in button */}
                         <div className="form-control mt-2">
-                            {/* TODO: apply disable for re captcha*/}
-                            <input disabled={false} className="btn bg-[#6C25FF] text-white" type="submit" value="Login" />
+                            <button className="btn btn-block bg-[#6C25FF] font-bold text-white hover:text-black" to="/login">Login</button>
+
                         </div>
 
                         <div className='text-center'>

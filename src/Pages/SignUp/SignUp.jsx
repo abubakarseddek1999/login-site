@@ -1,14 +1,15 @@
 
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 
 
 const SignUp = () => {
     const { createUser } = useContext(AuthContext);
     const [selectedOption, setSelectedOption] = useState('yes');
-
+    const navigate = useNavigate();
     const handleChange = (e) => {
         setSelectedOption(e.target.value);
     };
@@ -23,13 +24,22 @@ const SignUp = () => {
         const company = form.company.value;
         console.log(name, email, password, company);
 
-        createUser(email, password)
-            .then(result => {
-                const user = result.user;
-                console.log(user);
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your login success",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        navigate("/profile")
 
-            })
-            .catch(error => console.log(error.massage))
+        // createUser(email, password)
+        //     .then(result => {
+        //         const user = result.user;
+        //         console.log(user);
+
+        //     })
+        //     .catch(error => console.log(error.massage))
 
     }
 
@@ -60,7 +70,7 @@ const SignUp = () => {
                             <label className="label">
                                 <span className="label-text font-bold">Phone number</span>
                             </label>
-                            <input type="phone" placeholder="Your phone number" name='email' className="input input-bordered" required />
+                            <input type="number" placeholder="Your phone number" name='email' className="input input-bordered" required />
                         </div>
 
                         {/* email */}
@@ -83,7 +93,7 @@ const SignUp = () => {
                         {/* company name */}
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text font-bold">Email</span>
+                                <span className="label-text font-bold">Company name</span>
                             </label>
                             <input type="text" placeholder="company name " name='company' className="input input-bordered" required />
                         </div>
