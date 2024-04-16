@@ -3,8 +3,8 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
-
-
+import { FaGoogle } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 
 const SignUp = () => {
     const { createUser } = useContext(AuthContext);
@@ -133,8 +133,8 @@ const SignUp = () => {
                         <div className='text-center'>
                             <p>Or Sign up with</p>
                             <div className='flex justify-center gap-4 mt-2'>
-                                <Link>facebook </Link>
-                                <Link>google</Link>
+                                <Link><FaFacebook /> </Link>
+                                <Link><FaGoogle /></Link>
 
                             </div>
                             <div className='mt-3'>

@@ -1,5 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
+import { FaGoogle } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 const Login = () => {
@@ -99,8 +101,8 @@ const Login = () => {
                                 <p >New here? <br /> <Link to="/signup" className='text-lime-600 font-bold '>Create a New Account</Link></p>
                                 <p>Or Sign In with</p>
                                 <div className='flex justify-center gap-4 mt-2'>
-                                    <Link>facebook </Link>
-                                    <Link onClick={handleGoogleSignIn}>google</Link>
+                                    <Link><FaFacebook /> </Link>
+                                    <Link onClick={handleGoogleSignIn}><FaGoogle /></Link>
 
                                 </div>
                             </div>
